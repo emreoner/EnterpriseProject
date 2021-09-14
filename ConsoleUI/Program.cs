@@ -12,9 +12,6 @@ namespace ConsoleUI
             TestProduct();
 
             //TestOrder();
-
-           
-
         }
 
         private static void TestOrder()
@@ -29,10 +26,14 @@ namespace ConsoleUI
         private static void TestProduct()
         {
             ProductManager productManager = new ProductManager(new EfProductDal());
-            foreach (var product in productManager.GetProductDetails())
-            {
-                Console.WriteLine($"{product.ProductName} - {product.CategoryName}");
-            }
+            var result = productManager.GetAll();
+            if (result.Success)
+                foreach (var product in result.Data)
+                {
+                    Console.WriteLine($"{product.ProductName} - {product.CategoryId}");
+                }
+            else
+                Console.WriteLine(result.Message);
         }
     }
 }
